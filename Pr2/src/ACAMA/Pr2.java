@@ -24,24 +24,38 @@ import java.util.Scanner;
  * 
  * @date  11/10/2017
  */
-public class Pr1 {
+public class Pr2 {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int numEntrada, cilindrada = 0, precio = 0, num;
+        int numEntrada, cilindrada = 0, precio = 0, num, maximo = 6000;
         String nombre, marca, modelo;
         Cesion ce;
         ArrayList<Cesion> cesiones = new ArrayList<Cesion>();
-        boolean ok = true;
+        boolean ok = true, max = true;
         Scanner sc = new Scanner(System.in);
         ArrayList<Miembro> miembros = new ArrayList<Miembro>();
         ArrayList<Moto> motos = new ArrayList<Moto>();
         Miembro mi, mo;
         
-        iniciarACAMA(motos, miembros);
+        do{
+            try{
+                System.out.println("Dame el precio maximo que puede poseer un miembro " +
+                "sumando el precio de sus motos\n");
+                maximo = sc.nextInt();
+                max = true;
+            }
+            catch(InputMismatchException e){
+                System.out.println("Datos no validos");
+                sc.next();
+                max = false;
+            }
+        }while(!max);
+        
+        iniciarACAMA(motos, miembros, maximo);
         while(ok){
             System.out.println("1) Registrar un nuevo miembro\n2) Registrar una " +
             "nueva motocicleta\n3) Registrar una cesion\n4) Mostrar los miembros " +
@@ -85,10 +99,10 @@ public class Pr1 {
                         System.out.println("Dame el id del miembro: ");
                         numEntrada = sc.nextInt();
                         mi = obtenerMiembro(numEntrada, miembros);
-                        if(comprobarDisponibilidad(mi, precio)){
+                        if(comprobarDisponibilidad(mi, precio, maximo)){
                             Moto moto = new Moto(marca, modelo, cilindrada, precio, mi.getId());
                             motos.add(moto);
-                            asignarMotoMiembro(mi, moto);
+                            asignarMotoMiembro(mi, moto, maximo);
                         }
                     }
                     catch (InputMismatchException e){
@@ -113,7 +127,7 @@ public class Pr1 {
                         mi = obtenerMiembro(num, miembros);
                         precio = motos.get(numEntrada).getPrecio();
                         mo = obtenerMiembroMoto(motos.get(numEntrada), miembros);
-                        if(crearCesion(motos.get(numEntrada), mo, mi))
+                        if(crearCesion(motos.get(numEntrada), mo, mi, maximo))
                         {
                           ce = new Cesion(motos.get(numEntrada), mo, mi);
                           cesiones.add(ce);
@@ -206,10 +220,10 @@ public class Pr1 {
     *                   false si no la puede tener
     *
     ***************************************************************************/
-    public static boolean comprobarDisponibilidad(Miembro m, int precio){
+    public static boolean comprobarDisponibilidad(Miembro m, int precio, int max){
         boolean ok = false;
         
-        if(m.getTotalPrecio() + precio < 6000){
+        if(m.getTotalPrecio() + precio < max){
             ok = true;
         }
         else
@@ -229,10 +243,10 @@ public class Pr1 {
     *                   correctamente y false si no es así
     *
     ***************************************************************************/
-    public static boolean asignarMotoMiembro(Miembro m, Moto moto){
+    public static boolean asignarMotoMiembro(Miembro m, Moto moto, int max){
         boolean ok = false;
         
-        if(comprobarDisponibilidad(m,moto.getPrecio())){
+        if(comprobarDisponibilidad(m,moto.getPrecio(), max)){
             m.addMoto(moto);
             
             ok = true;
@@ -276,10 +290,10 @@ public class Pr1 {
     *                   false si no es así
     *
     ***************************************************************************/
-    public static boolean crearCesion(Moto m, Miembro or, Miembro de)
+    public static boolean crearCesion(Moto m, Miembro or, Miembro de, int max)
     {
         boolean ok = false;
-        if(asignarMotoMiembro(de, m))
+        if(asignarMotoMiembro(de, m, max))
         {
             or.deleteMoto(m);
             ok = true;
@@ -351,7 +365,7 @@ public class Pr1 {
     * param  [in]  miembros  Lista de miembros
     *
     ***************************************************************************/
-    public static void iniciarACAMA(ArrayList<Moto> motos, ArrayList<Miembro> miembros)
+    public static void iniciarACAMA(ArrayList<Moto> motos, ArrayList<Miembro> miembros, int max)
     {
         Moto moto;
         Miembro miem;
@@ -368,21 +382,21 @@ public class Pr1 {
         
         moto = new Moto("Vespa", "Primavera", 125, 2500, miembros.get(0).getId());
         motos.add(moto);
-        asignarMotoMiembro(miembros.get(0), moto);
+        asignarMotoMiembro(miembros.get(0), moto, max);
         moto = new Moto("Vespa", "Primavera", 125, 2500, miembros.get(0).getId());
         motos.add(moto);
-        asignarMotoMiembro(miembros.get(0), moto);
+        asignarMotoMiembro(miembros.get(0), moto, max);
         moto = new Moto("Motobenae", "Poney AG2", 70, 2300, miembros.get(2).getId());
         motos.add(moto);
-        asignarMotoMiembro(miembros.get(2), moto);
+        asignarMotoMiembro(miembros.get(2), moto, max);
         moto = new Moto("Bultaco", "", 200, 3800, miembros.get(1).getId());
         motos.add(moto);
-        asignarMotoMiembro(miembros.get(1), moto);        
+        asignarMotoMiembro(miembros.get(1), moto, max);        
         moto = new Moto("Guzzi", "Cardelino 73", 75, 1200, miembros.get(1).getId());
         motos.add(moto);
-        asignarMotoMiembro(miembros.get(1), moto);
+        asignarMotoMiembro(miembros.get(1), moto, max);
         moto = new Moto("Ducati", "mini", 49, 4000, miembros.get(3).getId());
         motos.add(moto);
-        asignarMotoMiembro(miembros.get(3), moto);         
+        asignarMotoMiembro(miembros.get(3), moto, max);         
     }
 }
