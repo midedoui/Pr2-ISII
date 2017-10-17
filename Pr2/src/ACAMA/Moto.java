@@ -17,7 +17,7 @@ package ACAMA;
  */
 public class Moto {
     private String marca, modelo;
-    private int idMoto, cilindrada, precio, idDueño;
+    private int idMoto, cilindrada, precio, idDueño, otrosGastos;
     private static int IDSIG = 1;
     
     /* Moto(String, String, int, int, int) *************************************
@@ -29,9 +29,10 @@ public class Moto {
     * param  [in]  ci  Cilindrada de la moto
     * param  [in]  pr  Precio de la moto
     * param  [in]  id  Id del dueño  
+    * param  [in]  ga  Otros gastos de la moto
     *
     ***************************************************************************/
-    public Moto(String ma, String mo, int ci, int pr, int id){
+    public Moto(String ma, String mo, int ci, int pr, int id, int ga){
         marca = ma;
         modelo = mo;
         cilindrada = ci;
@@ -39,6 +40,7 @@ public class Moto {
         idMoto = IDSIG;
         idDueño = id;
         IDSIG++;
+        otrosGastos = ga;
     }
     
     /* String getMarca() *******************************************************
@@ -152,6 +154,10 @@ public class Moto {
         return idMoto;
     }
     
+    public void addOtrosGastos(int ga){
+        otrosGastos += ga;
+    }
+    
     @Override
     /* String toString() *******************************************************
     *
@@ -161,6 +167,8 @@ public class Moto {
     *
     ***************************************************************************/
     public String toString(){
-        return "ID " + idMoto + " " + marca + " " + modelo + "\r\nCC: " + cilindrada + "\r\nPrecio: " + precio + "€\r\n";
+        return "ID " + idMoto + " " + marca + " " + modelo + "\r\nCC: " + 
+                cilindrada + "\r\nPrecio: " + precio + "€\r\nOtros gastos: " +
+                otrosGastos + "€\r\n";
     }
 }

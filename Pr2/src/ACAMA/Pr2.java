@@ -31,7 +31,7 @@ public class Pr2 {
      */
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int numEntrada, cilindrada = 0, precio = 0, num, maximo = 6000;
+        int numEntrada, cilindrada = 0, precio = 0, num, maximo = 6000, gastos;
         String nombre, marca, modelo;
         Cesion ce;
         ArrayList<Cesion> cesiones = new ArrayList<Cesion>();
@@ -46,11 +46,17 @@ public class Pr2 {
                 System.out.println("Dame el precio maximo que puede poseer un miembro " +
                 "sumando el precio de sus motos\n");
                 maximo = sc.nextInt();
+                if(isNegat(maximo)){
+                    throw new Exception();
+                }
                 max = true;
             }
             catch(InputMismatchException e){
                 System.out.println("Datos no validos");
                 sc.next();
+                max = false;
+            }catch(Exception e){
+                System.out.println("Numero negativo\n");
                 max = false;
             }
         }while(!max);
@@ -60,7 +66,7 @@ public class Pr2 {
             System.out.println("1) Registrar un nuevo miembro\n2) Registrar una " +
             "nueva motocicleta\n3) Registrar una cesion\n4) Mostrar los miembros " +
             "con motos en posesión\n5) Mostrar todas las motos\n6) Mostrar las " +
-            "cesiones realizadas\n7) Salir del programa");
+            "cesiones realizadas\n7) Incrementar otros gastos de un moto\n8) Salir del programa\n");
             
             numEntrada = sc.nextInt();
             
@@ -93,6 +99,8 @@ public class Pr2 {
                         cilindrada = sc.nextInt();
                         System.out.println("Dame el precio: ");
                         precio = sc.nextInt();
+                        System.out.println("Dame el importe de otros gastos: ");
+                        gastos = sc.nextInt();
                     
 
                         mostrarMiembros(miembros);
@@ -100,7 +108,7 @@ public class Pr2 {
                         numEntrada = sc.nextInt();
                         mi = obtenerMiembro(numEntrada, miembros);
                         if(comprobarDisponibilidad(mi, precio, maximo)){
-                            Moto moto = new Moto(marca, modelo, cilindrada, precio, mi.getId());
+                            Moto moto = new Moto(marca, modelo, cilindrada, precio, mi.getId(), gastos);
                             motos.add(moto);
                             asignarMotoMiembro(mi, moto, maximo);
                         }
@@ -152,6 +160,28 @@ public class Pr2 {
                         System.out.println(cesiones.get(i).toString());
                     break;
                 case 7:
+                    try{
+                        for(int i = 0; i < motos.size(); i++){
+                            System.out.println(motos.get(i).toString());
+                        }
+                        System.out.println("Dame el id de la moto a modificar: ");
+                        numEntrada = sc.nextInt();
+                        if(numEntrada > motos.size() || numEntrada < 1)
+                            throw new InputMismatchException();
+                        System.out.println("Dame el importe de otros gastos: ");
+                        gastos = sc.nextInt();
+                        if(isNegat(gastos))
+                            throw new Exception();
+                        motos.get(numEntrada-1).addOtrosGastos(gastos);
+                    }catch(InputMismatchException e){
+                        System.out.println("Datos no validos\n");
+                        sc.next();
+                    }catch(Exception e){
+                        System.out.println("Numero negativo\n");
+                    }finally{
+                    break;
+                    }
+                case 8:
                     escribirFichero(miembros, cesiones);
                     ok = false;
                     break;
@@ -162,12 +192,32 @@ public class Pr2 {
         }
     }
     
+    /* boolean isNegat(int i) **************************************************
+    *
+    * La funcion comprueba si un numero es negativo
+    *
+    * param  [in]  i  Numero a comprobar
+    *
+    * param  [out]  n  True si es negativo y false si es positivo
+    *
+    ***************************************************************************/
+    public static boolean isNegat(int i){
+        boolean ok = false;
+        
+        if(i < 0){
+            ok = true;
+        }
+        return ok;
+    }
     
-    /* boolean isNumeric(String s) ********************************
+    /* boolean isNumeric(String s) *********************************************
     * 
     * La función permite saber si un string contiene almenos un numero
     *
     * param  [in]  s  String en el que se buscaran numeros
+    *
+    * param  [out]  ok  True si s contiene algun caracter numerico y false si
+    *                   no lo contiene
     *
     ***************************************************************************/
     public static boolean isNumeric(String s){
@@ -380,22 +430,22 @@ public class Pr2 {
         miem = new Miembro("Pablo");
         miembros.add(miem);
         
-        moto = new Moto("Vespa", "Primavera", 125, 2500, miembros.get(0).getId());
+        moto = new Moto("Vespa", "Primavera", 125, 2500, miembros.get(0).getId(),0);
         motos.add(moto);
         asignarMotoMiembro(miembros.get(0), moto, max);
-        moto = new Moto("Vespa", "Primavera", 125, 2500, miembros.get(0).getId());
+        moto = new Moto("Vespa", "Primavera", 125, 2500, miembros.get(0).getId(),0);
         motos.add(moto);
         asignarMotoMiembro(miembros.get(0), moto, max);
-        moto = new Moto("Motobenae", "Poney AG2", 70, 2300, miembros.get(2).getId());
+        moto = new Moto("Motobenae", "Poney AG2", 70, 2300, miembros.get(2).getId(),0);
         motos.add(moto);
         asignarMotoMiembro(miembros.get(2), moto, max);
-        moto = new Moto("Bultaco", "", 200, 3800, miembros.get(1).getId());
+        moto = new Moto("Bultaco", "", 200, 3800, miembros.get(1).getId(),0);
         motos.add(moto);
         asignarMotoMiembro(miembros.get(1), moto, max);        
-        moto = new Moto("Guzzi", "Cardelino 73", 75, 1200, miembros.get(1).getId());
+        moto = new Moto("Guzzi", "Cardelino 73", 75, 1200, miembros.get(1).getId(),0);
         motos.add(moto);
         asignarMotoMiembro(miembros.get(1), moto, max);
-        moto = new Moto("Ducati", "mini", 49, 4000, miembros.get(3).getId());
+        moto = new Moto("Ducati", "mini", 49, 4000, miembros.get(3).getId(),0);
         motos.add(moto);
         asignarMotoMiembro(miembros.get(3), moto, max);         
     }

@@ -2,39 +2,36 @@ Identificador: 001	Nombre: Juan
 ID 1 Vespa Primavera
 CC: 125
 Precio: 2500€
+Otros gastos: 0
 ID 2 Vespa Primavera
 CC: 125
 Precio: 2500€
+Otros gastos: 0
 Precio total: 5000€
 
 Identificador: 002	Nombre: Pepe
 ID 4 Bultaco 
 CC: 200
 Precio: 3800€
-Precio total: 3800€
+Otros gastos: 0
+ID 5 Guzzi Cardelino 73
+CC: 75
+Precio: 1200€
+Otros gastos: 0
+Precio total: 5000€
 
 Identificador: 003	Nombre: Joseba
 ID 3 Motobenae Poney AG2
 CC: 70
 Precio: 2300€
+Otros gastos: 0
 Precio total: 2300€
 
 Identificador: 004	Nombre: Pablo
 ID 6 Ducati mini
 CC: 49
 Precio: 4000€
-ID 5 Guzzi Cardelino 73
-CC: 75
-Precio: 1200€
-Precio total: 5200€
+Otros gastos: 500
+Precio total: 4000€
 
 ***Cesiones***
-Antiguo propietario: Pepe
- -Moto cedida-
-ID 5 Guzzi Cardelino 73
-CC: 75
-Precio: 1200€
-      --      
-Nuevo propietario: Pablo
-Fecha cesion: Wed Oct 11 18:19:56 CEST 2017
-
