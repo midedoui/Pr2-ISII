@@ -28,7 +28,9 @@ public class Miembro {
     * Constructor por defecto de la clase
     *
     ***************************************************************************/
-    public Miembro(){}
+    public Miembro(){
+        idSocio = 0;
+    }
     
     /* Miembro(String) *********************************************************
     *
@@ -163,7 +165,7 @@ public class Miembro {
     ***************************************************************************/
     public ArrayList<Moto> getMotos()
     {
-            return motos;
+        return motos;
     }
     
     @Override

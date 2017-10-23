@@ -39,7 +39,8 @@ public class Pr2 {
         Scanner sc = new Scanner(System.in);
         ArrayList<Miembro> miembros = new ArrayList<Miembro>();
         ArrayList<Moto> motos = new ArrayList<Moto>();
-        Miembro mi, mo;
+        ArrayList<Moto> motosElim = new ArrayList<Moto>();
+        Miembro mi, miem;
         
         do{
             try{
@@ -61,12 +62,13 @@ public class Pr2 {
             }
         }while(!max);
         
-        iniciarACAMA(motos, miembros, maximo);
+        //iniciarACAMA(motos, miembros, maximo);
         while(ok){
             System.out.println("1) Registrar un nuevo miembro\n2) Registrar una " +
             "nueva motocicleta\n3) Registrar una cesion\n4) Mostrar los miembros " +
             "con motos en posesión\n5) Mostrar todas las motos\n6) Mostrar las " +
-            "cesiones realizadas\n7) Incrementar otros gastos de un moto\n8) Salir del programa\n");
+            "cesiones realizadas\n7) Incrementar otros gastos de un moto\n8) "+
+            "Eliminar miembro\n9) Salir del programa\n");
             
             numEntrada = sc.nextInt();
             
@@ -134,10 +136,10 @@ public class Pr2 {
                         num = sc.nextInt();
                         mi = obtenerMiembro(num, miembros);
                         precio = motos.get(numEntrada).getPrecio();
-                        mo = obtenerMiembroMoto(motos.get(numEntrada), miembros);
-                        if(crearCesion(motos.get(numEntrada), mo, mi, maximo))
+                        miem = obtenerMiembroMoto(motos.get(numEntrada), miembros);
+                        if(crearCesion(motos.get(numEntrada), miem, mi, maximo))
                         {
-                          ce = new Cesion(motos.get(numEntrada), mo, mi);
+                          ce = new Cesion(motos.get(numEntrada), miem, mi);
                           cesiones.add(ce);
                         }
                     }
@@ -182,6 +184,40 @@ public class Pr2 {
                     break;
                     }
                 case 8:
+                    boolean amm = false;
+                    
+                    mostrarMiembros(miembros);
+                    try{
+                        System.out.println("Dame el id del miembro a eliminar: ");
+                        numEntrada = sc.nextInt();
+                        if(numEntrada > miembros.size() || numEntrada < 1)
+                            throw new InputMismatchException();
+                        mi = obtenerMiembro(numEntrada, miembros);
+                        motosElim = mi.getMotos();
+                        int tam = motosElim.size();
+                        if(tam == 0)
+                            miembros.remove(mi);
+                        else{
+                            for(int i = 0; i < tam; i++){
+                                System.out.println(motos.get(i).toString());
+                                mostrarMiembros(miembros);
+                                while(!amm){
+                                    System.out.println("Dame el id del miembro al que deseas asignar la moto: ");
+                                    numEntrada = sc.nextInt();
+                                    if(numEntrada > getMaxId(miembros) || numEntrada < 1)
+                                        throw new InputMismatchException();
+                                    miem = obtenerMiembro(numEntrada, miembros);
+                                    amm = asignarMotoMiembro(miem, motos.get(i), maximo);
+                                }
+                            }
+                            miembros.remove(mi);
+                        }
+                    }catch(InputMismatchException e){
+                        System.out.println("Datos no validos\n");
+                        sc.next();
+                    }
+                    break;
+                case 9:
                     escribirFichero(miembros, cesiones);
                     ok = false;
                     break;
@@ -190,6 +226,19 @@ public class Pr2 {
                     break;
             }
         }
+    }
+    
+    public static int getMaxId(ArrayList<Miembro> m){
+        Miembro mi;
+        int ref = 0, id;
+        
+        for(int i = 0; i < m.size(); i++){
+            mi = m.get(i);
+            id = mi.getId();
+            if(ref < id)
+                ref = id;
+        }
+        return ref;
     }
     
     /* boolean isNegat(int i) **************************************************
