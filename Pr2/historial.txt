@@ -1,37 +1,38 @@
-Identificador: 001	Nombre: Juan
-ID 1 Vespa Primavera
-CC: 125
-Precio: 2500€
+Identificador: 001	Nombre: Miguel
+ID 2 Ducati Diablo
+CC: 1000
+Precio: 4500€
 Otros gastos: 0€
-ID 2 Vespa Primavera
-CC: 125
-Precio: 2500€
-Otros gastos: 0€
-Precio total: 5000€
+Precio total: 4500€
 
-Identificador: 002	Nombre: Pepe
-ID 4 Bultaco 
-CC: 200
-Precio: 3800€
-Otros gastos: 0€
-ID 5 Guzzi Cardelino 73
-CC: 75
+Identificador: 002	Nombre: Antonio
+Precio total: 0€
+
+Identificador: 003	Nombre: Lorenzo
+ID 1 BMW 520i
+CC: 250
 Precio: 1200€
-Otros gastos: 0€
-Precio total: 5000€
-
-Identificador: 003	Nombre: Joseba
-ID 3 Motobenae Poney AG2
-CC: 70
-Precio: 2300€
-Otros gastos: 0€
-Precio total: 2300€
-
-Identificador: 004	Nombre: Pablo
-ID 6 Ducati mini
-CC: 49
-Precio: 4000€
-Otros gastos: 0€
-Precio total: 4000€
+Otros gastos: 250€
+Precio total: 1200€
 
 ***Cesiones***
+Antiguo propietario: Miguel
+ -Moto cedida-
+ID 1 BMW 520i
+CC: 250
+Precio: 1200€
+Otros gastos: 250€
+      --      
+Nuevo propietario: Lorenzo
+Fecha cesion: Mon Oct 23 20:14:39 CEST 2017
+
+Antiguo propietario: Antonio
+ -Moto cedida-
+ID 2 Ducati Diablo
+CC: 1000
+Precio: 4500€
+Otros gastos: 0€
+      --      
+Nuevo propietario: Miguel
+Fecha cesion: Mon Oct 23 20:15:31 CEST 2017
+

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class Miembro {
     private String nombre;
     private ArrayList<Moto> motos;
-    private int idSocio, totalPrecio;
+    private int idSocio, totalPrecio, totalCesiones;
     private static int IDSIG = 1;
     
     /* Miembro() ***************************************************************
@@ -45,6 +45,7 @@ public class Miembro {
         totalPrecio();
         idSocio = IDSIG;
         IDSIG++;
+        totalCesiones = 0;
     }
 
     /* String getNombre() ******************************************************
@@ -107,6 +108,11 @@ public class Miembro {
     public void addMoto(Moto m){
         motos.add(m);
         totalPrecio();
+        totalCesiones++;
+    }
+    
+    public int getTotalCesiones(){
+        return totalCesiones;
     }
     
     /* void totalPrecio() ******************************************************

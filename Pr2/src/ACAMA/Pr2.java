@@ -68,7 +68,7 @@ public class Pr2 {
             "nueva motocicleta\n3) Registrar una cesion\n4) Mostrar los miembros " +
             "con motos en posesión\n5) Mostrar todas las motos\n6) Mostrar las " +
             "cesiones realizadas\n7) Incrementar otros gastos de un moto\n8) "+
-            "Eliminar miembro\n9) Salir del programa\n");
+            "Eliminar miembro\n9) Mostrar los miembros con mas cesiones\n10) Salir del programa\n");
             
             numEntrada = sc.nextInt();
             
@@ -218,6 +218,9 @@ public class Pr2 {
                     }
                     break;
                 case 9:
+                    mostrarMiembrosCesiones(cesiones);
+                    break;
+                case 10:
                     escribirFichero(miembros, cesiones);
                     ok = false;
                     break;
@@ -226,6 +229,41 @@ public class Pr2 {
                     break;
             }
         }
+    }
+    
+    public static void mostrarMiembrosCesiones(ArrayList<Cesion> c){
+        Cesion ce;
+        Miembro m, mm;
+        int tot, ref = 0;
+        int id1, id2;
+        ArrayList<Miembro> mi = new ArrayList<Miembro>();
+        
+        for(int i = 0; i < c.size(); i++){
+            ce = c.get(i);
+            m = ce.getDestino();
+            tot = m.getTotalCesiones();
+            if(tot > ref){
+                for(int j = 0; j < mi.size(); j++){
+                    mm = mi.get(j);
+                    mi.remove(mm);
+                }
+                ref = tot;
+                mi.add(m);
+            }
+            else if(tot == ref){
+                boolean b = false;
+                for(int k = 0; k < mi.size() && !b; k++){
+                    id1 = mi.get(i).getId();
+                    id2 = m.getId();
+                    if(id1 == id2){
+                        b = true;
+                    }
+                }
+                if(!b)
+                    mi.add(m);
+            }
+        }
+        mostrarMiembros(mi);
     }
     
     public static int getMaxId(ArrayList<Miembro> m){
